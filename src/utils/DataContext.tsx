@@ -1,7 +1,7 @@
 import React, { Key, PureComponent } from "react";
 import useFetch from "../Hooks/useFetch";
 
-type IProduto = {
+export type IProduto = {
   id: string;
   nome: string;
   preco: number;
@@ -11,19 +11,38 @@ type IProduto = {
   parcelas: number | null;
 };
 type IContexto = {
-  data: IProduto | null;
+  data: IProduto[] | null;
   loading: boolean;
   error: string | null;
+  inicio: string;
+  final: string;
+  setInicio: React.Dispatch<React.SetStateAction<string>>;
+  setFinal: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const Contexto = React.createContext<IContexto | null>(null);
 
+const dataAtual = (n: number) => {
+  const data = new Date();
+  data.setDate(data.getDate() - n);
+  const dd = String(data.getDate()).padStart(2, "0");
+  const mm = String(data.getMonth() + 1).padStart(2, "0");
+  const yyyy = String(data.getFullYear());
+  return `${yyyy}-${mm}-${dd}`;
+};
+
 export const DadosContexto = ({ children }: React.PropsWithChildren) => {
-  const { data, loading, error } = useFetch<IProduto>(
-    "https://data.origamid.dev/vendas/"
+  const [inicio, setInicio] = React.useState(dataAtual(30));
+  const [final, setFinal] = React.useState(dataAtual(0));
+
+  const { data, loading, error } = useFetch<IProduto[]>(
+    `https://data.origamid.dev/vendas/?inicio=${inicio}&final=${final}`
   );
+
   return (
-    <Contexto.Provider value={{ data, loading, error }}>
+    <Contexto.Provider
+      value={{ data, loading, error, inicio, setInicio, final, setFinal }}
+    >
       {children}
     </Contexto.Provider>
   );
