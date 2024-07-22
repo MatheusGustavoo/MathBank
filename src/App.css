@@ -127,3 +127,7 @@ ul {
   padding: var(--gap-s) 0;
   text-decoration: none;
 }
+
+.sidenav li:hover span {
+  background-color: var(--color-3);
+}
