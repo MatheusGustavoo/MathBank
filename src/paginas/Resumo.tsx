@@ -1,5 +1,6 @@
 import React from "react";
 import { useData } from "../utils/DataContext";
+import GraficosDeVenda from "../componentes/GraficosDeVenda";
 
 const Resumo = () => {
   const { data } = useData();
@@ -33,7 +34,9 @@ const Resumo = () => {
             .toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
         </div>
       </div>
-      <div className="box mb">Graficos</div>
+      <div className="box mb">
+        <GraficosDeVenda data={data}></GraficosDeVenda>
+      </div>
     </section>
   );
 };
