@@ -36,7 +36,7 @@ export const DadosContexto = ({ children }: React.PropsWithChildren) => {
   const [final, setFinal] = React.useState(dataAtual(0));
 
   const { data, loading, error } = useFetch<IProduto[]>(
-    `https://data.origamid.dev/vendas/?inicio=${inicio}&final=${final}`
+    `${import.meta.env.VITE_URL}=${inicio}&final=${final}`
   );
 
   return (
